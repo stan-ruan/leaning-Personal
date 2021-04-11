@@ -1,0 +1,17 @@
+.THIS {
+    min-height: 100vh;
+    background: #f3f2f2;
+}
+.THIS .table-content{
+    overflow: auto;
+}
+.THIS .table-header{
+    display: flex;
+    align-items: center;
+    white-space: pre-wrap;
+    min-height: 55px;
+    text-align: left;
+}
+.THIS table div{
+    text-align: center;
+}

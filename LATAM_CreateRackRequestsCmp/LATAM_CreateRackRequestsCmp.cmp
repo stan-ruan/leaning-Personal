@@ -1,0 +1,78 @@
+<!--
+ - @author Chenyang Li
+ - @date 2019-10-29
+ - @description This Lightning Component is used to create Rack Requests.
+ -->
+<aura:component
+    description="LATAM_CreateRackRequestsCmp"
+    access="global"
+    controller="LATAM_CreateRackRequestsCtrl"
+    implements="flexipage:availableForAllPageTypes,force:lightningQuickActionWithoutHeader,force:hasRecordId"
+>
+    <ltng:require
+        scripts="{!$Resource.GTM + '/Javascripts/sfdc-aura-light/SCN_AL_AuraLight.js'}"
+        afterScriptsLoaded="{!c.doInit}"
+    />
+
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="type" type="String" default="NEW_REQUEST"/>
+    <aura:attribute name="racks" type="List" default="[]" />
+    <aura:attribute name="selectedRack" type="Object" default="{}" />
+    <aura:attribute name="isShowSpinner" type="Boolean" default="false" />
+
+    <aura:registerEvent
+        name="changeRackQuantity"
+        type="c:LATAM_RackQuantityChangeEvt"
+    />
+    <aura:handler
+        event="c:LATAM_RackQuantityChangeEvt"
+        action="{!c.handleRackQuantityChange}"
+    />
+
+    <aura:registerEvent
+        name="saveRackQuantity"
+        type="c:LATAM_RackQuantitySaveEvt"
+    />
+    <aura:handler
+        event="c:LATAM_RackQuantitySaveEvt"
+        action="{!c.handleRackQuantitySave}"
+    />
+
+    <aura:registerEvent
+        name="confirmRackRequest"
+        type="c:LATAM_RackRequestEvt"
+    />
+    <aura:handler
+        event="c:LATAM_RackRequestEvt"
+        action="{!c.handleConfirmRackRequest}"
+    />
+    <aura:html tag="style">
+        lightning-primitive-bubble { z-index: 9999 !important; }
+    </aura:html>
+    <lightning:overlayLibrary aura:id="rackModal" />
+    <lightning:notificationsLibrary aura:id="notifLib" />
+    <div class="{!v.isShowSpinner?'spinHolder':'slds-hide'}">
+        <lightning:spinner alternativeText="Loading" size="small" />
+    </div>
+
+    <lightning:layout multipleRows="true">
+        <aura:iteration items="{!v.racks}" var="rack">
+            <lightning:layoutItem
+                padding="around-small"
+                flexibility="grow"
+                size="6"
+                mediumDeviceSize="4"
+                largeDeviceSize="3"
+            >
+                <lightning:button
+                    value="{!rack.strShortId}"
+                    onclick="{!c.handleRackClick}"
+                    class="slds-size--12-of-12"
+                    variant="neutral"
+                >
+                    <c:LATAM_RackCardCmp asset="{!rack}" full="false" />
+                </lightning:button>
+            </lightning:layoutItem>
+        </aura:iteration>
+    </lightning:layout>
+</aura:component>

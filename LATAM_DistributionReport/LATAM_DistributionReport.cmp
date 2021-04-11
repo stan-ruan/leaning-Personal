@@ -1,0 +1,159 @@
+<aura:component implements="force:appHostable" controller="LATAM_DistributionReportCtrl">
+    <aura:attribute name="isInit" type="Boolean" access="PRIVATE" default="true"/>
+    <aura:attribute name="searchKey" type="String" access="PRIVATE" default=""/>
+    <aura:attribute name="dateValue" type="String" access="PRIVATE" default=""/>
+    <aura:attribute name="dateRange" type="List" access="PRIVATE" default="[]"/>
+    <aura:attribute name="selectedBU" type="String" access="PRIVATE" default=""/>
+    <aura:attribute name="options" type="List" access="PRIVATE" default="[]"/>
+    <aura:attribute name="isShowSpinner" type="Boolean" default="false"/>
+    <aura:attribute name="isShowDetail" type="Boolean" default="true"/>
+    <aura:attribute name="buttonTitle" type="String"/>
+    <aura:attribute name="reportData" type="List" access="PRIVATE"/>
+    <aura:attribute name="isLastPage" type="Boolean" default="true" access="PRIVATE"/>
+    <aura:attribute name="currentPage" type="Integer" default="1" access="PRIVATE"/>
+    <aura:attribute name="isDivisional" type="Boolean" default="false" access="PRIVATE"/>
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <div>
+        <div class="{!v.isShowSpinner?'spinner':'slds-hide'}">
+            <lightning:spinner alternativeText="Loading" />
+        </div>
+        <div class="slds-page-header">
+            <div class="slds-page-header__row">
+                <div class="slds-page-header__col-title">
+                    <div class="slds-media">
+                        <div class="slds-media__figure">
+                            <lightning:icon iconName="standard:report" alternativeText="Event" />
+                        </div>
+                        <div class="slds-media__body">
+                            <div class="slds-page-header__name">
+                                <div class="slds-page-header__name-title">
+                                    <h1>
+                                        <span class="slds-page-header__title slds-truncate" title="{!$Label.c.LATAM_Distribution_Report}">{!$Label.c.LATAM_Distribution_Report}</span>
+                                    </h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dynamo-logo">
+                            <img src="{!$Resource.Dynamo_RouteOnboarding_Img + '/Dynamo_RouteOnboarding_Img/dynamo_logo-01.png'}"></img>
+                        </div>
+                    </div>
+                    <div class="filter-content">
+                        <div class="slds-m-right_small input-content" onkeyup="{!c.searchByRoute}">
+                            <lightning:input aura:id="enter-search" label="{!$Label.c.LATAM_Distribution_Report_Search_Title}" value="{!v.searchKey}" type="search" placeholder="{!$Label.c.LATAM_Distribution_Report_Search_Placeholder}"/>
+                        </div>
+                        <div class="slds-m-right_small input-content">
+                            <lightning:input type="date" name="date-input" label="{!$Label.c.LATAM_Distribution_Report_Date}" value="{!v.dateValue}" onchange="{!c.filterReport}" min="{!v.dateRange[0]}" max="{!v.dateRange[1]}"/>
+                        </div>
+                        <div class="slds-m-right_small input-content">
+                            <lightning:select name="BU-select" label="{!$Label.c.LATAM_Distribution_Report_Business_Unit}" value="{!v.selectedBU}" onchange="{!c.filterReport}">
+                                <option value="">{!$Label.c.LATAM_Distribution_Report_Business_Unit_All}</option>
+                                <aura:iteration items="{!v.options}" var="option">
+                                    <option value="{!option}">{!option}</option>
+                                </aura:iteration>
+                            </lightning:select>
+                        </div>
+                        <div class="{!v.reportData.length == 0 ? 'slds-hide':'slds-m-top_small'}">
+                            <lightning:button label="{!v.buttonTitle}" title="{!v.buttonTitle}" onclick="{! c.displayDetail }"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="{!v.reportData.length == 0 ? 'slds-hide':'table-container slds-grid slds-p-bottom_large'}">
+            <div class="slds-border_right">
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered ">
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <aura:if isTrue="{!v.isDivisional}">
+                                <th class="" scope="col">
+                                    <div class="slds-truncate">{!$Label.c.LATAM_Distribution_Report_Title_Supervisor}</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate">{!$Label.c.LATAM_Distribution_Report_Title_District}</div>
+                                </th>
+                            </aura:if>
+                            <th class="" scope="col">
+                                <div class="slds-truncate">{!$Label.c.LATAM_Distribution_Report_Title_Route}</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate">{!$Label.c.LATAM_Distribution_Report_Title_Product}</div>
+                            </th>
+                            <th class="{!v.isShowDetail?'':'slds-hide'}" scope="col">
+                                <div class="slds-truncate">{!$Label.c.LATAM_Distribution_Report_Title_Custom_Level}</div>
+                            </th>
+                            <th class="{!v.isShowDetail?'':'slds-hide'}" scope="col">
+                                <div class="slds-truncate">{!$Label.c.LATAM_Distribution_Report_Title_Actual}</div>
+                            </th>
+                            <th class="{!v.isShowDetail?'':'slds-hide'}" scope="col">
+                                <div class="slds-truncate">{!$Label.c.LATAM_Distribution_Report_Title_Target}</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate">{!$Label.c.LATAM_Distribution_Report_Title_Total_Distribution}</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate">{!$Label.c.LATAM_Distribution_Report_Title_Target_By_Product}</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <aura:iteration items="{!v.reportData}" var="route">
+                            <tr class="slds-hint-parent">
+                                <aura:if isTrue="{!v.isDivisional}">
+                                    <td rowspan="26" class="slds-border_left sticky-sales-rep">
+                                        <div class="slds-truncate">{!route.strSupervisorName}</div>
+                                    </td>
+                                    <td rowspan="26" class="slds-border_left sticky-sales-rep">
+                                        <div class="slds-truncate">{!route.strDistrictName}</div>
+                                    </td>
+                                </aura:if>
+                                <td rowspan="26" class="slds-border_left sticky-sales-rep">
+                                    <lightning:button class="slds-truncate clickable-title" variant="base" label="{!route.strRouteName}" name="{!route.idRouteID}" title="{!route.strRouteName}" onclick="{! c.goToDetail }"/>
+                                </td>
+                            </tr>
+                            <aura:iteration items="{!route.lstProduct}" var="product">
+                                <tr class="slds-hint-parent">
+                                    <td class="slds-border_left" rowspan="{!product.lstCustomLevelAndData.length + 1}">
+                                        <div class="slds-truncate">{!product.strProductName}</div>
+                                    </td>
+                                </tr>
+                                <aura:iteration items="{!product.lstCustomLevelAndData}" var="level" indexVar="index">
+                                    <tr>
+                                        <td class="{!v.isShowDetail?'slds-border_left':'slds-hide'}">
+                                            <div class="slds-truncate">{!level.strCustomLevel}</div>
+                                        </td>
+                                        <td class="{!v.isShowDetail?'slds-border_left':'slds-hide'}">
+                                            <div class="slds-truncate">{!level.strActual+'' == '-1' ? '-':level.strActual+'%'}</div>
+                                        </td>
+                                        <td class="{!v.isShowDetail?'slds-border_left':'slds-hide'}">
+                                            <div class="slds-truncate">{!level.strTarget+'' == '-1' ? '-':level.strTarget+'%'}</div>
+                                        </td>
+                                        <aura:if isTrue="{!index == 0}">
+                                            <td class="slds-border_left" rowspan="{!product.lstCustomLevelAndData.length}">
+                                                <div class="slds-truncate">{!product.strTotalDistribution+'' == '-1'?'-':product.strTotalDistribution+'%'}</div>
+                                            </td>
+                                            <td class="slds-border_left" rowspan="{!product.lstCustomLevelAndData.length}">
+                                                <div class="slds-truncate">{!product.strTargetByProduct+'' == '-1'?'-':product.strTargetByProduct+'%'}</div>
+                                            </td>
+                                        </aura:if>
+                                    </tr>
+                                </aura:iteration>
+                            </aura:iteration>
+                        </aura:iteration>
+                        <aura:if isTrue="{!v.isLastPage == false}">
+                            <tr class="slds-hint-parent">
+                                <td colspan="7" class="slds-border_left sticky-sales-rep align-center">
+                                    <lightning:button class="slds-truncate clickable-title" variant="base" label="{!$Label.c.LATAM_Distribution_Report_View_More}" onclick="{!c.goNextPage}"/>
+                                </td>
+                            </tr>
+                        </aura:if>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="{!v.reportData.length == 0 ? 'no-result':'slds-hide'}">
+            <div class="no-result-text">
+                {!$Label.c.LATAM_Onboarded_Route_Report_No_Results}
+            </div>
+        </div>
+    </div>
+</aura:component>

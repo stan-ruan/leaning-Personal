@@ -1,0 +1,38 @@
+.THIS {
+    background: #ffffff;
+    min-height: 100%;
+}
+.THIS td .slds-button{
+    line-height: normal;
+}
+.THIS .dynamo-logo img{
+    max-height: 40px;
+}
+.THIS .filter-content{
+    display: flex;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+.THIS .filter-content .input-content{
+	min-width: 270px;
+}
+.THIS .table-container{
+    width: 100%;
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
+}
+.THIS .align-center{
+    text-align: center;
+}
+.THIS .no-result .no-result-text{
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    font-size: 1.5rem;
+}
+.THIS .slds-table_cell-buffer tr>th:first-child, 
+.THIS .slds-table_cell-buffer tr>td:first-child, 
+.THIS .slds-table--cell-buffer tr>th:first-child, 
+.THIS .slds-table--cell-buffer tr>td:first-child{
+    padding-left: .25rem;
+}

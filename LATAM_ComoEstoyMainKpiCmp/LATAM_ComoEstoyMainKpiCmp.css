@@ -1,0 +1,12 @@
+.THIS {
+    background: #fff;
+}
+.THIS .dot{
+    display: inline-block;
+    width: .75rem;
+    height: .75rem;
+    border-radius: 100%;
+}
+.THIS .bold-font{
+    font-weight: bold;
+}

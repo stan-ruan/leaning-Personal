@@ -1,0 +1,211 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId,force:hasSObjectName" controller="LATAM_AbilitiesChecklistCtrl">
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <aura:attribute name="isShowSpinner" type="Boolean" default="false"/>
+    <aura:attribute name="isShowConfirm" type="Boolean" default="false"/>
+    <aura:attribute name="isShowDetail" type="Boolean" default="false"/>
+    <aura:attribute name="isFirstSubmit" type="Boolean" default="true"/>
+    <aura:attribute name="isDisabled" type="String" default="fasle"/>
+    <aura:attribute name="confirmMessage" type="String" default=""/>
+    <aura:attribute name="currentDay" type="String" default=""/>
+    <aura:attribute name="surveyInfo" type="Object" default="{}"/>
+    <aura:attribute name="surveyTableHeader" type="Object" default="{}"/>
+    <aura:attribute name="isCancel" type="Boolean" default="false"/>
+    <aura:attribute name="questionsForNonPoint" type="List" />
+    <aura:attribute name="questionsForPoint" type="List" />
+    <aura:attribute name="detailStringList" type="List" access="PRIVATE"/>
+    <aura:attribute name="eventRecordType" type="String"/>
+    <aura:attribute name="totalPointLstWed" type="String"/>
+    <aura:attribute name="totalPointLstTh" type="String"/>
+
+    
+    <aura:html tag="style">
+        .slds-modal__container > .modal-body.slds-p-around--medium {
+            padding: 0rem !important;
+        }
+        .cuf-content, .cuf-scroller-inside{
+            padding: 0 0rem !important;
+            height: 100%;
+        }
+        .slds-modal__content{
+            overflow-y:hidden !important;
+            height:unset !important;
+            max-height:unset !important;
+        }
+    </aura:html>
+    <div class="{!v.isShowSpinner?'spinner':'slds-hide'}">
+        <lightning:spinner class="survey-spinner" alternativeText="Loading" />
+    </div>
+    <div>
+        <div class="slds-form-element remove-auto-focus">
+            <label class="slds-checkbox_toggle slds-grid">
+                <input name="{!'checkbox-toggle-'+index}" type="checkbox"/>
+                <span id="{!'checkbox-toggle-'+index}" class="slds-checkbox_faux_container">
+                <span class="slds-checkbox_faux"></span>
+                </span>
+            </label>
+        </div>
+        <div class="survey-content">
+            <header class="account-wrapper-new">
+                <div class="{!v.eventRecordType != 'SOC' ? 'headder-detail slds-p-horizontal_medium' : 'slds-p-horizontal_medium soc-headder-detail'}" >
+                    <div class="title slds-grid slds-grid_align-center">
+                        <span class="">{!v.surveyInfo.routeName}</span>
+                    </div>
+                    <div class="line"></div>
+                    <div class="name slds-grid slds-grid_align-center">
+                        <span class="">{!v.surveyInfo.salesRep}</span>
+                    </div>
+                    <div class="id slds-grid slds-grid_align-center">
+                        <span class="text-center">{!v.surveyInfo.instructions}</span>
+                    </div>
+                </div>
+                <div class="{!v.eventRecordType != 'SOC' ? 'headder-btn slds-grid slds-align_absolute-center' : 'slds-assistive-text'}" onclick="{!c.showDetail}">
+                    {!$Label.c.LATAM_Abilities_Checklist_View_Detail_btn}
+                </div>
+            </header>
+            <div class="slds-grid content-wrapper">
+                <div class="content-detail">
+                    <div class="questionnaire-title slds-grid slds-grid_vertical-align-center slds-grid_align-spread slds-p-horizontal_small slds-p-vertical_x-small">
+                        <div class="title">{!v.surveyTableHeader.skillTitle}</div>
+                        <div class="week-day text-capitalize">{!v.surveyTableHeader.leftWeekDay}</div>
+                        <div class="week-day text-capitalize">{!v.surveyTableHeader.rightWeekDay}</div>
+                    </div>
+                    <aura:iteration items="{!v.questionsForPoint}" var="question" indexVar="index">
+                        <div class="question-item slds-grid_vertical-align-center slds-grid slds-grid_align-spread slds-p-horizontal_small slds-p-vertical_medium">
+                            <div class="title">
+                                {!question.strQuestion}
+                            </div>
+                            <div class="last-week-content slds-grid slds-grid_align-center" data-input-index="{!index}" data-prefix="w-checkbox-toggle-" onclick="{!c.changeAns}">
+                                <div class="slds-form-element">
+                                    <label class="slds-checkbox_toggle slds-grid">
+                                        <input class="{!'w-checkbox-toggle-'+index}" type="checkbox" checked="{!question.strFirstAnswers == '1'? true:fasle}" disabled="{!v.isDisabled == 'left' ? true:false}"/>
+                                        <span id="{!'w-checkbox-toggle-'+index}" class="slds-checkbox_faux_container">
+                                            <span class="slds-checkbox_faux"></span>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="option" data-input-index="{!index}" data-prefix="t-checkbox-toggle-" onclick="{!c.changeAns}">
+                                <aura:if isTrue="{!v.isDisabled == 'right'}">
+                                    <div class="slds-form-element">
+                                        <label class="slds-checkbox_toggle slds-grid">
+                                            <input class="{!'t-checkbox-toggle-'+index}" type="checkbox" checked="false" disabled="true"/>
+                                            <span id="{!'t-checkbox-toggle-'+index}" class="slds-checkbox_faux_container">
+                                                <span class="slds-checkbox_faux"></span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                    <aura:set attribute="else">
+                                        <div class="slds-form-element">
+                                            <label class="slds-checkbox_toggle slds-grid">
+                                                <input class="{!'t-checkbox-toggle-'+index}" type="checkbox" checked="{!question.strSecAnswers == '1'? true:false}" disabled="{!and(v.eventRecordType == 'SOC',v.isFirstSubmit == false) ? true:false }"/>
+                                                <span id="{!'t-checkbox-toggle-'+index}" class="slds-checkbox_faux_container">
+                                                    <span class="slds-checkbox_faux"></span>
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </aura:set>
+                                </aura:if>
+                            </div>
+                        </div>
+                    </aura:iteration>
+                    <div class="questionnaire-title slds-grid slds-grid_vertical-align-center slds-grid_align-spread slds-p-horizontal_small">
+                        <div class="title">{!$Label.c.LATAM_Abilities_Checklist_Responses_Title}</div>
+                    </div>
+                    <aura:iteration items="{!v.questionsForNonPoint}" var="question" indexVar="index">
+                        <div class="question-item slds-p-horizontal_small slds-p-vertical_medium">
+                            <aura:if isTrue="{!question.strQuestionType == 'Text'}">
+                                <aura:if isTrue="{!question.strSubCategory == '3'}">
+                                    <aura:if isTrue="{!and(v.eventRecordType == 'SOC',v.isFirstSubmit == false)}">
+                                        <lightning:input label="{!question.strQuestion}" value="{!question.strSecAnswers}" disabled="true"/>
+                                        <aura:set attribute="else">
+                                            <lightning:input label="{!question.strQuestion}" value="{!question.strSecAnswers}" disabled="{!v.isDisabled == 'right' ? true:false}"/>
+                                        </aura:set>
+                                    </aura:if>
+                                    <aura:set attribute="else">
+                                        <lightning:input label="{!question.strQuestion}" value="{!question.strFirstAnswers}" disabled="{!v.isDisabled == 'left' ? true:false}"/>
+                                    </aura:set>
+                                </aura:if>
+                            </aura:if>
+                            <aura:if isTrue="{!question.strQuestionType == 'Textarea'}">
+                                <aura:if isTrue="{!question.strQuestion == 'Resultados:'}">
+                                    <aura:if isTrue="{!v.isDisabled == 'right'}">
+                                        <lightning:textarea label="{!question.strQuestion}" value="" disabled="true"/>
+                                        <aura:set attribute="else">
+                                            <lightning:textarea label="{!question.strQuestion}" value="{!question.strSecAnswers}" disabled="{!and(v.eventRecordType == 'SOC',v.isFirstSubmit == false) ? true:false }"/>
+                                        </aura:set>
+                                    </aura:if>
+                                    <aura:set attribute="else">
+                                        <lightning:textarea label="{!question.strQuestion}" value="{!question.strFirstAnswers}" disabled="{!v.isDisabled == 'left' ? true:false}"/>
+                                    </aura:set>
+                                </aura:if>
+                            </aura:if>
+                        </div>
+                    </aura:iteration>
+                </div>
+            </div>
+            <footer class="footer-button-wrapper slds-border_top slds-grid slds-grid_vertical-align-center slds-grid_align-spread slds-p-vertical_x-small slds-p-horizontal_medium">
+                <button class="slds-button slds-button_neutral text-uppercase" onclick="{!c.cancelSurvey}">{!$Label.c.LATAM_Abilities_Checklist_Cancel_Button}</button>
+                <div class="dynamo-logo">
+                    <img src="{!$Resource.Dynamo_RouteOnboarding_Img + '/Dynamo_RouteOnboarding_Img/logo.png'}"></img>
+                </div>
+                <button class="slds-button slds-button_brand text-uppercase" onclick="{!c.csubmitSurvey}">{!$Label.c.LATAM_Abilities_Checklist_Submit_Button}</button>
+            </footer>
+        </div>
+        <div class="{!v.isShowConfirm ? 'confirm-modal':'slds-hide'}">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_medium">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header slds-modal__header_empty">
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <p>{!v.confirmMessage}</p>
+                    </div>
+                    <footer class="slds-modal__footer slds-modal__footer_directional">
+                        <button class="slds-button slds-button_neutral text-uppercase" onclick="{!c.cancelConfirm}">{!$Label.c.LATAM_Abilities_Checklist_Cancel_Button}</button>
+                        <button class="slds-button slds-button_brand text-uppercase" onclick="{!c.closeQuickAction}">{!$Label.c.LATAM_Survey_Confirm_Button}</button>
+                    </footer>
+                </div>
+            </section>
+            <div class="{!v.isShowConfirm ? 'slds-backdrop slds-backdrop_open':'slds-backdrop slds-backdrop_hide'}"></div>
+        </div>
+        <div class="{!v.isShowDetail ? 'confirm-modal':'slds-hide'}">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-2" class="slds-modal slds-fade-in-open slds-modal_medium">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header slds-modal__header_empty"></header>
+                    <div class="slds-modal__content slds-p-around_medium  slds-wrap text-center" id="modal-content-id-2">
+                        <div class="slds-p-around_large slds-border_top slds-border_right slds-border_bottom slds-border_left">
+                            {!v.detailStringList[0]}
+                        </div>
+                        <div class="slds-grid slds-border_right slds-border_bottom slds-border_left">
+                            <div class="slds-size_1-of-2 slds-border_right slds-p-around_large">
+                                {!v.detailStringList[1]}
+                            </div>
+                            <div class="slds-size_1-of-2 slds-p-around_large">
+                                {!v.detailStringList[2]}
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-border_right slds-border_bottom slds-border_left">
+                            <div class="slds-size_1-of-2 slds-border_right slds-p-around_large">
+                                {!v.detailStringList[3]}
+                            </div>
+                            <div class="slds-size_1-of-2 slds-p-around_large">
+                                {!v.detailStringList[4]}
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-border_right slds-border_bottom slds-border_left">
+                            <div class="slds-size_1-of-2 slds-border_right slds-p-around_large">
+                                {!v.detailStringList[5]}
+                            </div>
+                            <div class="slds-size_1-of-2 slds-p-around_large">
+                                {!v.detailStringList[6]}
+                            </div>
+                        </div>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_brand text-uppercase" onclick="{!c.closeDetail}">{!$Label.c.LATAM_Abilities_Checklist_Close_Button}</button>
+                    </footer>
+                </div>
+            </section>
+            <div class="{!v.isShowDetail ? 'slds-backdrop slds-backdrop_open':'slds-backdrop slds-backdrop_hide'}"></div>
+        </div>
+    </div>
+</aura:component>

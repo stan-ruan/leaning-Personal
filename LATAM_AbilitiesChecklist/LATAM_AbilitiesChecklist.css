@@ -1,0 +1,140 @@
+.THIS {
+    height: 100%;
+    position: relative;
+    font-size: 13px;
+}
+.THIS.spinner {
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    z-index: 9050;
+    top: 0;
+    left: 0;
+}
+.THIS .text-center{
+    text-align: center;
+}
+.THIS .error-message{
+    position: sticky;
+    display: flex;
+    align-items: center;
+    color: #c23934;
+    width: 100%;
+    height: 40px;
+    font-weight: bold;
+}
+.THIS .remove-auto-focus{
+    height: 0px!important;
+    width: 0px!important;
+    overflow: hidden;
+}
+.THIS .text-uppercase{
+    text-transform: uppercase;
+}
+.THIS .text-capitalize{
+    text-transform: capitalize;
+}
+.THIS .survey-content,
+.THIS .select-product-page{
+    height: 100%;
+}
+.THIS .content-wrapper{
+    height: 100%;
+    padding-top: 220px;
+    padding-bottom: 50px;
+}
+.THIS .content-wrapper .content-detail{
+    width: 100%;
+    height: 100%;
+    overflow-x: scroll;
+    color: #333333;
+}
+.THIS .content-wrapper .content-detail .last-week-content{
+    width: 100px;
+    text-align: center;
+    font-size: 14px;
+}
+.THIS .content-wrapper .content-detail .option{
+    width: 50px;
+    text-align: center;
+    font-size: 14px;
+}
+.THIS .content-wrapper .content-detail .questionnaire-title{
+    min-height: 65px;
+    font-weight: 700;
+}
+.THIS .content-wrapper .content-detail .question-item{
+    border: 1px solid #d7d7d7;
+    background: #ffffff;
+}
+.THIS .content-wrapper .content-detail .question-item .title,
+.THIS .content-wrapper .content-detail .questionnaire-title .title{
+    width: calc(100% - 150px);
+    font-size: 14px;
+}
+.THIS .content-wrapper .content-detail .question-item .title .subtitle{
+    font-size: 12px;
+}
+.THIS .footer-button-wrapper{
+    position: absolute;
+    bottom: 0;
+    height: 50px;
+    width: 100%;
+    padding-bottom: 10px;
+    background: #ffffff;
+}
+
+.THIS .account-wrapper-new{
+    position: absolute;
+    top: 0;
+    height: 210px;
+    width: 100%;
+}
+
+.THIS .account-wrapper-new .headder-detail{
+    background-color: #00529b;
+    color: #f3ecec;
+    font-size: 14px;
+    height: 180px;
+}
+
+.THIS .account-wrapper-new .headder-detail .title,
+.THIS .account-wrapper-new .soc-headder-detail .title{
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+
+.THIS .account-wrapper-new .headder-detail .line,
+.THIS .account-wrapper-new .soc-headder-detail .line{
+    width: 70px;
+    margin: 0 auto;
+    border-bottom: 1px solid;
+}
+
+.THIS .account-wrapper-new .headder-detail .name,
+.THIS .account-wrapper-new .soc-headder-detail .name{
+    padding-top: 15px;
+    padding-bottom: 5px;
+    font-size: 1.5rem;
+}
+.THIS .account-wrapper-new .headder-btn{
+    height: 40px;
+    background-color: #ffffff;
+}
+.THIS .dynamo-logo,
+.THIS .dynamo-logo img{
+    height: 100%;
+}
+
+.THIS .week-day {
+    width: auto;
+    text-align: center;
+    font-size: 14px;
+}
+
+.THIS .account-wrapper-new .soc-headder-detail{
+    background-color: #00529b;
+    color: #f3ecec;
+    font-size: 14px;
+    height: 220px;
+}

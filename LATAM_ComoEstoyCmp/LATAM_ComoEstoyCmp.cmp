@@ -1,0 +1,129 @@
+<aura:component implements="flexipage:availableForAllPageTypes, force:appHostable">
+    <aura:attribute name="mainKpisList" type="List" default="[]"/>
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <div class="slds-p-horizontal_medium">
+        <div class="slds-p-vertical_medium slds-border_bottom">
+            <div class="slds-page-header__row">
+                <div class="slds-page-header__col-title">
+                    <div class="slds-grid slds-grid_vertical-align-center">
+                        <div class="slds-media__body">
+                            <div class="slds-page-header__name">
+                                <div class="slds-page-header__name-title">
+                                <h1>
+                                    <span class="slds-page-header__title slds-truncate">Hola Luisa!</span>
+                                </h1>
+                                </div>
+                            </div>
+                            <p class="slds-page-header__name-meta">Ultima modification: Hoy a las 15:20</p>
+                        </div>
+                        <div>
+                            <lightning:select label="test" variant="label-hidden" class="date-filter">
+                                <option value="1">Hoy</option>
+                                <option value="2">Esta Semana</option>
+                                <option value="3">Este Mes</option>
+                            </lightning:select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-p-vertical_medium">
+            <div class="slds-p-top_small slds-truncate">
+                Informacion general de mi distrito
+            </div>
+            <div class="slds-text-align_right">
+                <lightning:button class="slds-truncate" variant="base" label="Ver todos los informes" iconName="utility:chevronright" iconPosition="right" onclick="{!c.navigateToInfo}"/>
+            </div>
+            <div class="slds-grid slds-gutters slds-wrap">
+                <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-3 slds-medium-size_1-of-3 slds-small-size_1-of-1 slds-p-bottom_medium">
+                    <c:LATAM_ComoEstoyMainKpiCmp kpiObject="{!v.mainKpisList[0]}"/>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-3 slds-medium-size_1-of-3 slds-small-size_1-of-1 slds-p-bottom_medium">
+                    <c:LATAM_ComoEstoyMainKpiCmp kpiObject="{!v.mainKpisList[1]}"/>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-3 slds-medium-size_1-of-3 slds-small-size_1-of-1 slds-p-bottom_medium">
+                    <c:LATAM_ComoEstoyMainKpiCmp kpiObject="{!v.mainKpisList[2]}"/>
+                </div>
+            </div>
+            <div class="slds-grid slds-gutters slds-wrap slds-p-top_large">
+                <div class="slds-col slds-size_1-of-1 slds-large-size_2-of-3 slds-medium-size_1-of-1 slds-small-size_1-of-1 slds-p-bottom_medium">
+                    <div class="slds-grid slds-grid_vertical-align-center slds-truncate title-height">Rutas sugeridas para revisar</div>
+                    <div class="route-content">
+                        <div class="slds-grid slds-wrap slds-grid_vertical-align-center slds-grid_align-spread slds-p-around_medium slds-border_bottom">
+                            <div class="">
+                                <lightning:icon class="slds-m-right_small" iconName="action:user" size="small"/>
+                                <lightning:icon class="slds-m-right_small opacity-icon" iconName="action:user" size="small"/>
+                                <lightning:icon class="slds-m-right_small opacity-icon" iconName="action:user" size="small"/>
+                            </div>
+                            <div>
+                                <lightning:button label="Ver perfil individual" onclick=""/>
+                                <lightning:button label="Agendar ruta a colaborar en" variant="brand" onclick=""/>
+                            </div>
+                        </div>
+                        <div class="slds-p-around_medium">
+                            <div class="slds-p-top_x-small">
+                                <lightning:button class="slds-truncate font-size-medium" variant="base" label="Ruta 1A334D" iconName="utility:chevronright" iconPosition="right" onclick=""/>
+                            </div>
+                            <p class="slds-p-bottom_small">La ruta requiere atencion en los siguentes indicadores</p>
+                            <div class="slds-p-top_medium">
+                                <div class="route-kpi-block slds-p-right_x-large slds-p-bottom_medium">
+                                    <div class="slds-grid slds-grid_vertical-align-center">
+                                        <span class="slds-p-right_x-small font-size-medium">80%</span>
+                                        <lightning:icon iconName="utility:warning" size="small" variant="error"/>
+                                    </div>
+                                    <p>Cumplimiento visita</p>
+                                </div>
+                                <div class="route-kpi-block slds-p-right_x-large slds-p-bottom_medium">
+                                    <div class="slds-grid slds-grid_vertical-align-center">
+                                        <span class="slds-p-right_x-small font-size-medium">80%</span>
+                                        <lightning:icon iconName="utility:warning" size="small" variant="error"/>
+                                    </div>
+                                    <p>visitas efectivas</p>
+                                </div>
+                                <div class="route-kpi-block slds-p-right_x-large slds-p-bottom_medium">
+                                    <div class="slds-grid slds-grid_vertical-align-center">
+                                        <span class="slds-p-right_x-small font-size-medium">80%</span>
+                                        <lightning:icon iconName="utility:warning" size="small" variant="error"/>
+                                    </div>
+                                    <p>% Objectvio ventas</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-3 slds-medium-size_1-of-1 slds-small-size_1-of-1 slds-p-bottom_medium">
+                    <div class="slds-grid slds-grid_vertical-align-center slds-grid_align-spread title-height">
+                        <span class="slds-truncate">Tareas del supervisor</span>
+                        <lightning:button class="slds-truncate" variant="base" label="Ver calendario" iconName="utility:chevronright" iconPosition="right" onclick="{!c.navigateToCalendar}"/>
+                    </div>
+                    <div class="slds-p-around_medium task-content">
+                        <lightning:tabset selectedTabId="one">
+                            <lightning:tab label="incompleto" id="one">
+                                <ul>
+                                    <li class="slds-grid slds-grid_align-spread slds-p-bottom_small">
+                                        <span class="slds-col slds-size_9-of-12">Desarrollo de Mercado</span>
+                                        <span>5/30</span>
+                                    </li>
+                                    <li class="slds-grid slds-grid_align-spread slds-p-bottom_small">
+                                        <span class="slds-col slds-size_9-of-12">Gestion por excepcion</span>
+                                        <span>5/30</span>
+                                    </li>
+                                    <li class="slds-grid slds-grid_align-spread slds-p-bottom_small">
+                                        <span class="slds-col slds-size_9-of-12">Planeacion de sesion: adonde debo llegar</span>
+                                        <span>5/31</span>
+                                    </li>
+                                    <li class="slds-text-align_right slds-p-top_small">
+                                        <lightning:button class="slds-truncate" variant="base" label="Ver mas" onclick=""/>
+                                    </li>
+                                </ul>
+                            </lightning:tab>
+                            <lightning:tab label="Completado" id="two">
+                                Completado Content !
+                            </lightning:tab>
+                        </lightning:tabset>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>	

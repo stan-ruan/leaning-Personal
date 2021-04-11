@@ -1,0 +1,211 @@
+<aura:component implements="flexipage:availableForAllPageTypes, force:appHostable">
+    <aura:attribute name="mainKpisList" type="List" default="[]"/>
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <div class="slds-p-horizontal_medium">
+        <div class="slds-p-vertical_medium slds-border_bottom">
+            <div class="slds-page-header__row">
+                <div class="slds-page-header__col-title">
+                    <div class="slds-grid slds-grid_vertical-align-center">
+                        <div class="slds-media__body">
+                            <div class="slds-page-header__name">
+                                <div class="slds-page-header__name-title">
+                                <h1>
+                                    <span class="slds-page-header__title slds-truncate">Informes</span>
+                                </h1>
+                                </div>
+                            </div>
+                            <p class="slds-page-header__name-meta">Ultima modification: Hoy a las 15:20</p>
+                        </div>
+                        <div>
+                            <lightning:select label="test" variant="label-hidden" class="date-filter">
+                                <option value="1">Hoy</option>
+                                <option value="2">Esta Semana</option>
+                                <option value="3">Este Mes</option>
+                            </lightning:select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-p-vertical_medium">
+            <div class="slds-p-top_small slds-p-bottom_small slds-truncate">
+                Vision General
+            </div>
+            <div class="slds-grid slds-gutters slds-wrap">
+                <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-3 slds-medium-size_1-of-3 slds-small-size_1-of-1 slds-p-bottom_medium">
+                    <c:LATAM_ComoEstoyMainKpiCmp kpiObject="{!v.mainKpisList[0]}"/>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-3 slds-medium-size_1-of-3 slds-small-size_1-of-1 slds-p-bottom_medium">
+                    <c:LATAM_ComoEstoyMainKpiCmp kpiObject="{!v.mainKpisList[1]}"/>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-3 slds-medium-size_1-of-3 slds-small-size_1-of-1 slds-p-bottom_medium">
+                    <c:LATAM_ComoEstoyMainKpiCmp kpiObject="{!v.mainKpisList[2]}"/>
+                </div>
+            </div>
+            <div class="slds-p-top_small slds-p-bottom_small slds-truncate">
+                El desempeno de mi rutas
+            </div>
+            <div class="table-content slds-border_left slds-border_right">
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered slds-table_striped">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>
+                                <div>Ruta 123456</div>
+                            </th>
+                            <th>
+                                <div>Ruta 788901</div>
+                            </th>
+                            <th>
+                                <div>Ruta 345671</div>
+                            </th>
+                            <th>
+                                <div>Ruta 003211</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr>
+                            <td>
+                                <div class="table-header">Vendedores</div>
+                            </td>
+                            <td>
+                                <div><lightning:icon class="slds-m-right_small" iconName="action:user" size="small"/></div>
+                            </td>
+                            <td>
+                                <div><lightning:icon class="slds-m-right_small" iconName="action:user" size="small"/></div>
+                            </td>
+                            <td>
+                                <div><lightning:icon class="slds-m-right_small" iconName="action:user" size="small"/></div>
+                            </td>
+                            <td>
+                                <div><lightning:icon class="slds-m-right_small" iconName="action:user" size="small"/></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="table-header">Cumplimiento Visitas %</div>
+                            </td>
+                            <td>
+                                <div>78/100(78%)</div>
+                            </td>
+                            <td>
+                                <div>96/100(96%)</div>
+                            </td>
+                            <td>
+                                <div>96/100(96%)</div>
+                            </td>
+                            <td>
+                                <div>96/100(96%)</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="table-header">Visitas Efectivas %</div>
+                            </td>
+                            <td>
+                                <div>78/100(78%)</div>
+                            </td>
+                            <td>
+                                <div>96/100(96%)</div>
+                            </td>
+                            <td>
+                                <div>96/100(96%)</div>
+                            </td>
+                            <td>
+                                <div>96/100(96%)</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="table-header">% Objectivo Ventas</div>
+                            </td>
+                            <td>
+                                <div>$1200/1600(75%)</div>
+                            </td>
+                            <td>
+                                <div>$1480/1600(87%)</div>
+                            </td>
+                            <td>
+                                <div>$1480/1600(87%)</div>
+                            </td>
+                            <td>
+                                <div>$1480/1600(87%)</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="table-header">Devolucion M %</div>
+                            </td>
+                            <td>
+                                <div>$55/1200(4%)</div>
+                            </td>
+                            <td>
+                                <div>$199/1200(17%)</div>
+                            </td>
+                            <td>
+                                <div>$55/1200(4%)</div>
+                            </td>
+                            <td>
+                                <div>$55/1200(4%)</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="table-header">Tiempo excedido del CD al primer cliente</div>
+                            </td>
+                            <td>
+                                <div>7m</div>
+                            </td>
+                            <td>
+                                <div>20m</div>
+                            </td>
+                            <td>
+                                <div>3m</div>
+                            </td>
+                            <td>
+                                <div>3m</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="table-header">Jornada Mercado</div>
+                            </td>
+                            <td>
+                                <div>10h 34m</div>
+                            </td>
+                            <td>
+                                <div>10h 42m</div>
+                            </td>
+                            <td>
+                                <div>10h 30m</div>
+                            </td>
+                            <td>
+                                <div>10h 30m</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="table-header">Tiempo excedido del ultimo cliente al DC</div>
+                            </td>
+                            <td>
+                                <div>7m</div>
+                            </td>
+                            <td>
+                                <div>10m</div>
+                            </td>
+                            <td>
+                                <div>3m</div>
+                            </td>
+                            <td>
+                                <div>4m</div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="slds-p-top_small">4 of 25 Rutas</div>
+        </div>
+    </div>
+</aura:component>	

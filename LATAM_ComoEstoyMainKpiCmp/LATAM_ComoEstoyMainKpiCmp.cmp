@@ -1,0 +1,12 @@
+<aura:component>
+    <aura:attribute name="kpiObject" type="Object"/>
+    <aura:attribute name="dotClass" type="String" default="dot slds-m-left_small "/>
+    <div class="slds-p-around_large">
+        <div class="slds-grid slds-grid_vertical-align-center kpi-title">{!v.kpiObject.title}<span class="{!v.dotClass + v.kpiObject.color}"></span></div>
+        <div class="slds-p-top_small slds-text-heading_large kpi-value bold-font">{!v.kpiObject.value}</div>
+        <div class="slds-p-top_small slds-grid_vertical-align-center slds-text-title kpi-disc">
+            <lightning:icon iconName="utility:arrowdown" size="xx-small" variant="error"/>
+            <span class="slds-m-left_xx-small">{!v.kpiObject.discription}</span>
+        </div>
+    </div>
+</aura:component>	

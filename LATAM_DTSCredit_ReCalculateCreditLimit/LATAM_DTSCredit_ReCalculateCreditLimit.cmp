@@ -1,0 +1,13 @@
+<aura:component controller="LATAM_DTSCredit_ReCalCreditLimitBtnCtrl" implements="flexipage:availableForAllPageTypes,force:appHostable">
+	
+	<ltng:require scripts="{!join(',',
+    	$Resource.GTM + '/Javascripts/sfdc-aura-light/SCN_AL_AuraLight.js')}" afterScriptsLoaded="{!c.init}" />
+
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+    
+	<aura:attribute name="matchProfile" type="Boolean" default="false" />
+
+	<aura:if isTrue="{!v.matchProfile}">
+		<lightning:button label="Re-Calculate Credit Limit" variant="brand" onclick="{!c.handleReCalculate}" />
+	</aura:if>
+</aura:component>

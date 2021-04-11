@@ -1,0 +1,40 @@
+<!-- 
+	Author:             Chuck Huang
+	Description:        This component display records queried by certian criteria 
+	Attributes:         queryInfo - pass in query
+	                    queryResults - list of query result
+	                    eventName - pass in event name
+	                    controlParams - pass in params to control input
+	Event Handlers:    	change - handles queryResults and controlParams value change 
+-->
+<aura:component extends="c:LATAM_QueryRecordsCmp">
+	<!-- jquery is required -->
+	<ltng:require scripts="{!join(',', $Resource.GTM + '/Javascripts/sfdc-aura-light/SCN_AL_AuraLight.js',
+                                       $Resource.GTM + '/Javascripts/jquery-ui/jquery-3.3.1.min.js',
+                                       $Resource.GTM + '/Javascripts/jquery-ui/jquery-ui.js')}"
+                  styles="{!join(',', $Resource.GTM + '/Javascripts/jquery-ui/jquery-ui.css', 
+                                      $Resource.GTM + '/Javascripts/jquery-ui/jquery-ui.structure.css',
+                                      $Resource.GTM + '/Javascripts/jquery-ui/jquery-ui.theme.css' )}" 
+				  afterScriptsLoaded="{!c.init}"/>
+
+	<!-- {"objectName":"", "fields":[], "criteria":"", "showSize":""} -->
+	<aura:attribute name="queryInfo" type="Object" />
+
+	<aura:attribute name="queryResults" type="List" />
+
+	<aura:attribute name="eventName" type="String" />
+
+	<aura:attribute name="controlParams" type="Object" />
+	
+	<aura:handler name="change" value="{!v.queryResults}" action="{!c.showResults}" />
+
+	<aura:handler name="change" value="{!v.controlParams}" action="{!c.handleControlChange}" />
+
+	<aura:registerEvent name="autoCompleteselect" type="c:LATAM_EventContainerEvt" />
+
+	<input type="text" id="{!v.eventName + 'autoCompletevalue'}" class="slds-input" onkeyup="{!c.autoComplete}" onmousedown="{!c.autoComplete}" disabled="{!v.controlParams.disable}" />
+	<div class="dropdownMenu">
+        <ul id="{!v.eventName + 'aulist'}" class="aulist">
+        </ul>
+    </div>
+</aura:component>

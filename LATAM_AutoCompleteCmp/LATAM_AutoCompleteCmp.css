@@ -1,0 +1,27 @@
+.THIS.dropdownMenu {
+	position: relative;
+	z-index: 999;
+}
+
+.THIS .aulist {
+	border: 1px solid #c5c5c5;
+	display: block;
+	position: absolute;
+	background: white;
+	width: 100%;
+	display: none;
+}
+
+.THIS .aulistli {
+	margin: 0;
+	cursor: pointer;
+}
+
+.THIS .aulistli:hover {
+	background: #5DADE2;
+	color: white;
+}
+
+.THIS .aulistdiv {
+	padding: 3px 1em 3px .4em
+}

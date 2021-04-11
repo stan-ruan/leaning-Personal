@@ -1,0 +1,37 @@
+.THIS .date-filter label{
+    display: none;
+}
+.THIS .title-height{
+    min-height: 40px;
+}
+.THIS .dot.red{
+    background: #c23934;
+}
+.THIS .dot.yellow{
+    background: #f2cf5b;
+}
+.THIS .dot.blue{
+    background: #04844b;
+}
+.THIS .route-content{
+    background: #fff;
+    min-height: 200px;
+}
+.THIS .route-content .route-kpi-block{
+    display: inline-block;
+}
+.THIS .task-content{
+    background: #fff;
+    min-height: 200px;
+}
+.THIS .font-size-medium{
+    font-size: 1.25rem;
+}
+.THIS .opacity-icon{
+    opacity: 0.3;
+    cursor: pointer;
+}
+.THIS {
+    min-height: 100vh;
+    background: #f3f2f2;
+}

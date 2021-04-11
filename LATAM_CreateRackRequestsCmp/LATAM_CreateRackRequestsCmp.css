@@ -1,0 +1,24 @@
+/**
+ * @author Chenyang Li
+ * @date 2019-10-29
+ * @description This is the style css for Lightning Component "LATAM_CreateRackRequestsCmp".
+ */
+.THIS .slds-button + .slds-button {
+    margin-left: 0;
+}
+
+.THIS .amount-badge {
+    float: right;
+    position: relative;
+    top: -30px;
+    right: 5px;
+}
+
+.THIS .slds-spinner_container {
+    height: 10%;
+    top: 45%;
+}
+
+.THIS.spinHolder {
+    height: 100px;
+}
